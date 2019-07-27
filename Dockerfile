@@ -6,6 +6,7 @@ ARG BIND_IP="0.0.0.0"
 ARG BIND_IP6="::0"
 
 RUN apt-get update && \
+    apt-get -y dist-upgrade && \
     apt-get install -y exim4-daemon-light && \
     apt-get -y --purge autoremove && \
     apt-get clean && \

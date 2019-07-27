@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-conf='/etc/exim/update-exim.conf.conf'
+conf='/etc/exim4/update-exim4.conf.conf'
 
 sedExpr=''
 while [ $# -gt 0 ]; do
@@ -20,4 +20,4 @@ done
 
 set -x
 sed -ri "$sedExpr"$'\n' "$conf"
-update-exim.conf -v
+update-exim4.conf -v

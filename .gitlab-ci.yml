@@ -1,0 +1,35 @@
+variables:
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+
+.tags-template: &tags-definition
+  tags:
+    - ix-ai
+
+.build-template: &build-definition
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  stage: build
+  script:
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"username\":\"${CI_REGISTRY_USER}\",\"password\":\"${CI_REGISTRY_PASSWORD}\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context ${CI_PROJECT_DIR} --dockerfile ${CI_PROJECT_DIR}/Dockerfile --destination ${IMAGE_TAG}
+
+build:test:
+  except:
+    - master
+    - latest
+  before_script:
+    - export IMAGE_TAG="${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
+  <<: *tags-definition
+  <<: *build-definition
+
+build:release:
+  only:
+    - master
+  before_script:
+    - export IMAGE_TAG="${CI_REGISTRY_IMAGE}:latest"
+  <<: *tags-definition
+  <<: *build-definition

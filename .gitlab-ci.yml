@@ -4,11 +4,9 @@ variables:
 stages:
   - build
 
-.tags-template: &tags-definition
+.build-template:
   tags:
     - ix-ai
-
-.build-template: &build-definition
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -18,18 +16,18 @@ stages:
     - /kaniko/executor --context ${CI_PROJECT_DIR} --dockerfile ${CI_PROJECT_DIR}/Dockerfile --destination ${IMAGE_TAG}
 
 build:test:
+  extends:
+    - .build-template
   except:
     - master
     - latest
   before_script:
     - export IMAGE_TAG="${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
-  <<: *tags-definition
-  <<: *build-definition
 
 build:release:
+  extends:
+    - .build-template
   only:
     - master
   before_script:
     - export IMAGE_TAG="${CI_REGISTRY_IMAGE}:latest"
-  <<: *tags-definition
-  <<: *build-definition

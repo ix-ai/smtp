@@ -6,7 +6,7 @@ echo -n "" > /etc/exim4/exim4.conf.localmacros
 
 if [ "$MAILNAME" ]; then
 	echo "MAIN_HARDCODE_PRIMARY_HOSTNAME = $MAILNAME" > /etc/exim4/exim4.conf.localmacros
-	echo $MAILNAME > /etc/mailname
+	echo "$MAILNAME" > /etc/mailname
 fi
 
 if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
@@ -15,8 +15,8 @@ if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
 	else
 	  echo "MAIN_TLS_ENABLE = yes" >>  /etc/exim4/exim4.conf.localmacros
 	fi
-	cp $KEY_PATH /etc/exim4/exim.key
-	cp $CERTIFICATE_PATH /etc/exim4/exim.crt
+	cp "$KEY_PATH" /etc/exim4/exim.key
+	cp "$CERTIFICATE_PATH" /etc/exim4/exim.crt
 	chgrp Debian-exim /etc/exim4/exim.key
 	chgrp Debian-exim /etc/exim4/exim.crt
 	chmod 640 /etc/exim4/exim.key
@@ -59,7 +59,7 @@ elif [ "$SMARTHOST_ADDRESS" ] ; then
 	)
 	rm -f /etc/exim4/passwd.client
 	if [ "$SMARTHOST_ALIASES" ] && [ "$SMARTHOST_USER" ] && [ "$SMARTHOST_PASSWORD" ] ; then
-		echo "$SMARTHOST_ALIASES;" | while read -d ";" alias; do
+		echo "$SMARTHOST_ALIASES;" | while read -r -d ";" alias; do
 			echo "${alias}:$SMARTHOST_USER:$SMARTHOST_PASSWORD" >> /etc/exim4/passwd.client
 		done
 	fi

@@ -1,33 +1,11 @@
 variables:
   DOCKER_DRIVER: overlay2
+  DOCKERHUB_REPO_PREFIX: ixdotai
+  DOCKERHUB_REPO_NAME: smtp
+  ENABLE_ARM64: 'true'
+  ENABLE_ARMv7: 'true'
+  ENABLE_ARMv6: 'true'
 
-stages:
-  - build
-
-.build-template:
-  tags:
-    - ix-ai
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  stage: build
-  script:
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"username\":\"${CI_REGISTRY_USER}\",\"password\":\"${CI_REGISTRY_PASSWORD}\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context ${CI_PROJECT_DIR} --dockerfile ${CI_PROJECT_DIR}/Dockerfile --destination ${IMAGE_TAG}
-
-build:test:
-  extends:
-    - .build-template
-  except:
-    - master
-    - latest
-  before_script:
-    - export IMAGE_TAG="${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
-
-build:release:
-  extends:
-    - .build-template
-  only:
-    - master
-  before_script:
-    - export IMAGE_TAG="${CI_REGISTRY_IMAGE}:latest"
+include:
+  - project: 'ix.ai/ci-templates'
+    file: '/bash-project.yml'

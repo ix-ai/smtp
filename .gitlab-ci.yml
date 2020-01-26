@@ -1,6 +1,4 @@
 variables:
-  DOCKER_DRIVER: overlay2
-  DOCKERHUB_REPO_PREFIX: ixdotai
   DOCKERHUB_REPO_NAME: smtp
   ENABLE_ARM64: 'true'
   ENABLE_ARMv7: 'true'

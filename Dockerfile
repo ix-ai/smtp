@@ -2,7 +2,6 @@ FROM debian:buster
 LABEL maintainer="docker@ix.ai" \
       ai.ix.repository="ix.ai/smtp"
 
-ENV DEBIAN_FRONTEND=noninteractive TERM=linux
 ARG PORT=25
 ARG BIND_IP="0.0.0.0"
 ARG BIND_IP6="::0"
@@ -10,7 +9,9 @@ ARG BIND_IP6="::0"
 COPY entrypoint.sh /bin/
 COPY set-exim4-update-conf /bin/
 
-RUN apt-get update && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    export TERM=linux && \
+    apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get install -y --no-install-recommends exim4-daemon-light && \
     apt-get -y --purge autoremove && \

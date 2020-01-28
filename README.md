@@ -1,5 +1,10 @@
 # SMTP
 
+[![Pipeline Status](https://gitlab.com/ix.ai/smtp/badges/master/pipeline.svg)](https://gitlab.com/ix.ai/smtp/)
+[![Docker Stars](https://img.shields.io/docker/stars/ixdotai/smtp.svg)](https://hub.docker.com/r/ixdotai/smtp/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ixdotai/smtp.svg)](https://hub.docker.com/r/ixdotai/smtp/)
+[![Gitlab Project](https://img.shields.io/badge/GitLab-Project-554488.svg)](https://gitlab.com/ix.ai/smtp/)
+
 This is a SMTP docker container for sending emails. You can also relay emails to gmail and amazon SES.
 
 ## Environment variables
@@ -60,6 +65,7 @@ Starting with version v0.0.1, the images are multi-arch, with builds for amd64, 
 
 ## Resources:
 * GitLab: https://gitlab.com/ix.ai/smtp
+* GitHub: https://github.com/ix-ai/smtp
 * Docker Hub: https://hub.docker.com/r/ixdotai/smtp
 
 # Credits

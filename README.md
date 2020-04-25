@@ -70,3 +70,10 @@ Starting with version v0.0.1, the images are multi-arch, with builds for amd64, 
 
 # Credits
 Special thanks to [namshi/docker-smtp](https://github.com/namshi/docker-smtp).
+
+## Differences from namshi/docker-smtp
+Initially, the difference was that this image was based on `debian:buster` instead of `debian:stretch`. This was implemented in the meanwhile.
+
+Right now, the only difference, that's not of cosmetic nature (read: the `entrypoint.sh` script has been changed to make [shellcheck](https://github.com/koalaman/shellcheck/) happy), is the fact that the image, in addition to AMD64, is built for ARM64, ARMv7 and ARMv6.
+
+Functionally, there's no difference.

@@ -60,12 +60,12 @@ Example:
 Starting with version v0.0.1, the images are multi-arch, with builds for amd64, arm64 and armv7.
 * `vN.N.N` - for example v0.0.1
 * `latest` - always pointing to the latest version
-* `dev-branch` - the last build on a feature/development branch
 * `dev-master` - the last build on the master branch
 
 ## Resources:
 * GitLab: https://gitlab.com/ix.ai/smtp
 * GitHub: https://github.com/ix-ai/smtp
+* GitLab Registry: https://gitlab.com/ix.ai/smtp/container_registry
 * Docker Hub: https://hub.docker.com/r/ixdotai/smtp
 
 # Credits
@@ -74,6 +74,6 @@ Special thanks to [namshi/docker-smtp](https://github.com/namshi/docker-smtp).
 ## Differences from namshi/docker-smtp
 Initially, the difference was that this image was based on `debian:buster` instead of `debian:stretch`. This was implemented in the meanwhile.
 
-Right now, the only difference, that's not of cosmetic nature (read: the `entrypoint.sh` script has been changed to make [shellcheck](https://github.com/koalaman/shellcheck/) happy), is the fact that the image, in addition to AMD64, is built for ARM64, ARMv7 and ARMv6.
+Right now, the only difference, that's not of cosmetic nature (read: the `entrypoint.sh` script has been changed to make [shellcheck](https://github.com/koalaman/shellcheck/) happy), is the fact that the image, in addition to AMD64, is built for ARM64, ARMv7, ARMv6 and i386.
 
 Functionally, there's no difference.

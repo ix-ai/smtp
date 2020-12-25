@@ -13,6 +13,7 @@ RUN set -xeu; \
     apt-get -y dist-upgrade; \
     apt-get install -y --no-install-recommends \
       exim4-daemon-light \
+      iproute2 \
     ; \
     apt-get -y --purge autoremove; \
     apt-get clean; \

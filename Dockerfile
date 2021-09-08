@@ -5,6 +5,7 @@ LABEL maintainer="docker@ix.ai" \
 ARG PORT=25
 ARG BIND_IP="0.0.0.0"
 ARG BIND_IP6="::0"
+ARG CI_PIPELINE_ID=""
 
 RUN set -xeu; \
     export DEBIAN_FRONTEND=noninteractive; \

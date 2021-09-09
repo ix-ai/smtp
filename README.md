@@ -45,14 +45,33 @@ If you use Google Compute Engine you also should set `SES_PORT` to 2587.
 You can also use any generic SMTP server with authentication as smarthost.</br>
 You need to set `SMARTHOST_ADDRESS`, `SMARTHOST_PORT` (connection parameters), `SMARTHOST_USER`, `SMARTHOST_PASSWORD` (authentication parameters), and `SMARTHOST_ALIASES`: this is a list of aliases to puth auth data for authentication, semicolon separated.</br>
 
+Example 1:
 ```
-Example:
+SMARTHOST_ADDRESS=mail.mysmtp.com
+SMARTHOST_PORT=587
+SMARTHOST_USER=myuser
+SMARTHOST_PASSWORD=secret
+SMARTHOST_ALIASES=*.mysmtp.com
+```
 
- * SMARTHOST_ADDRESS=mail.mysmtp.com
- * SMARTHOST_PORT=587
- * SMARTHOST_USER=myuser
- * SMARTHOST_PASSWORD=secret
- * SMARTHOST_ALIASES=*.mysmtp.com
+Example 2 using docker-compose.yml:
+
+```
+version: '3'
+
+services:
+  smtp:
+    image: ixdotai/smtp:latest
+    ports:
+      # this port mapping allows you to send email from the host.
+      # if you only send from other docker containers you don't need this.
+      - 127.0.0.1:25:25
+    environment:
+      - SMARTHOST_ADDRESS=smtp.sendgrid.net
+      - SMARTHOST_PORT=587
+      - SMARTHOST_USER=apikey
+      - SMARTHOST_PASSWORD=SG.blahblahblahblahWoSpQodvLakqXQfxo
+      - SMARTHOST_ALIASES=*.sendgrid.net
 ```
 
 ## Tags and Arch
@@ -68,12 +87,49 @@ Starting with version v0.0.1, the images are multi-arch, with builds for amd64, 
 * GitLab Registry: https://gitlab.com/ix.ai/smtp/container_registry
 * Docker Hub: https://hub.docker.com/r/ixdotai/smtp
 
+## Troubleshooting:
+
+Check the container logs to see exim output.
+
+### Certificate Verification Error in Exim 4.93 and 4.94
+
+Additional checking added in Exim 4.93 can cause certificate verification to fail with this error message:
+
+```
+    TLS session: (certificate verification failed): certificate invalid: delivering unencrypted to H=smtp.sendgrid.net [167.89.115.117] (not in hosts_require_tls)
+```
+Exim then tries to deliver unencrypted but this may fail because authentication may only be possible on TLS connections:
+
+```
+    smtp        |   293   SMTP<< 550 Unauthenticated senders not allowed
+    smtp        |   293   SMTP<< 503 Must have sender before recipient
+    smtp        |   293   SMTP<< 503 Must have valid receiver and originator
+    smtp        |   293   SMTP>> QUIT
+    smtp        |   293   SMTP(close)>>
+    smtp        |   292 LOG: MAIN
+    smtp        |   292   ** autosender@commonword.ca R=smarthost T=remote_smtp_smarthost H=smtp.sendgrid.net [167.89.123.82]: SMTP error from remote mail server after pipelined MAIL FROM:<> SIZE=3128: 550 Unauthenticated senders not allowed
+    smtp        |   292 LOG: MAIN
+    smtp        |   292   Frozen (delivery error message)
+```
+
+This issue will hopefully be resolved in Exim 4.95 (see https://bugs.exim.org/show_bug.cgi?id=2594), but at the time of writing (Sept 2021) the debian stable bas image we use has Exim 4.94.  One possible workaround in the meantime is to disable TLS verification when sending to your smarthost.
+
+Put this into a config file `exim4_additional_macros`:
+```
+# disable TLS verification as a workaround
+REMOTE_SMTP_SMARTHOST_TLS_VERIFY_HOSTS = :
+```
+and bind-mount this file to `/etc/exim4/_docker_additional_macros`. 
+
+
 # Credits
 Special thanks to [namshi/docker-smtp](https://github.com/namshi/docker-smtp).
 
 ## Differences from namshi/docker-smtp
-Initially, the difference was that this image was based on `debian:buster` instead of `debian:stretch`. This was implemented in the meanwhile.
 
-Right now, the only difference, that's not of cosmetic nature (read: the `entrypoint.sh` script has been changed to make [shellcheck](https://github.com/koalaman/shellcheck/) happy), is the fact that the image, in addition to AMD64, is built for ARM64, ARMv7, ARMv6 and i386.
+In terms of configuration, this image works the same as namshi/docker-smtp.
 
-Functionally, there's no difference.
+The main differences are:
+ * this image is based on `debian:stable` (vs. `debian:buster` used by namshi) so it has a newer version of Exim with the latest security updates.  The newer version may result in some differences vs. namshi.
+ * this image in addition to AMD64, is built for ARM64, ARMv7, ARMv6 and i386.
+ * cosmetic changes in `entrypoint.sh` to make [shellcheck](https://github.com/koalaman/shellcheck/) happy

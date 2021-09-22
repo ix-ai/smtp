@@ -26,4 +26,4 @@ if [ "${VERBOSE:-false}" == "true" ] ; then
 fi
 
 sed -ri "$sedExpr"$'\n' "$conf"
-update-exim4.conf -v
+update-exim4.conf.debug

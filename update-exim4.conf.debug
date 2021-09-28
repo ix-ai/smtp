@@ -1,0 +1,10 @@
+#!/bin/sh
+# update-exim4.conf.debug - Enable full verbosity in /usr/sbin/update-exim4.conf
+
+if [ "${VERBOSE:-false}" = "true" ]; then
+	set -x
+	. /usr/sbin/update-exim4.conf
+else
+	exec /usr/sbin/update-exim4.conf -v
+fi
+

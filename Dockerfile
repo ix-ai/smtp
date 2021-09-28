@@ -32,7 +32,7 @@ ENV PORT=${PORT} BIND_IP=${BIND_IP} BIND_IP6=${BIND_IP6}
 
 EXPOSE ${PORT}
 
-COPY entrypoint.sh set-exim4-update-conf /bin/
+COPY entrypoint.sh set-exim4-update-conf update-exim4.conf.debug /bin/
 
 ENTRYPOINT ["/bin/entrypoint.sh"]
 CMD ["exim", "-bd", "-q15m", "-v"]

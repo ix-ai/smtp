@@ -13,6 +13,7 @@ RUN set -xeu; \
     apt-get update; \
     apt-get -y dist-upgrade; \
     apt-get install -y --no-install-recommends \
+      ca-certificates \
       exim4-daemon-light \
       iproute2 \
     ; \

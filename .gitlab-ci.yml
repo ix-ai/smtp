@@ -1,10 +1,10 @@
 ---
 variables:
   DOCKERHUB_REPO_NAME: smtp
+  GITHUB_REPO_NAME: ix-ai/smtp
   ENABLE_ARM64: 'true'
   ENABLE_ARMv7: 'true'
-  ENABLE_ARMv6: 'true'
-  ENABLE_i386: 'true'
+  ENABLE_386: 'true'
 
 include:
   - project: 'ix.ai/ci-templates'

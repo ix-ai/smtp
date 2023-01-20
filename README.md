@@ -23,6 +23,8 @@ To disable IPV6 you can set the `DISABLE_IPV6` environment variable to any value
 
 The container accepts `OTHER_HOSTNAMES` environment variable which will set the list of domains for which this machine should consider itself the final destination.
 
+The container accepts `NET_DEV` environment variable to override the default `eth0` interface for retrieving the IP address for relay networks.
+
 ## Below are scenarios for using this container
 
 ### As SMTP Server

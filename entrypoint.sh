@@ -50,6 +50,8 @@ if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
 	chgrp Debian-exim /etc/exim4/exim.crt
 	chmod 640 /etc/exim4/exim.key
 	chmod 640 /etc/exim4/exim.crt
+else
+	  echo "MAIN_TLS_ENABLE = no" >>  /etc/exim4/exim4.conf.localmacros
 fi
 
 opts=(

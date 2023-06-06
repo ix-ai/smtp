@@ -38,7 +38,7 @@ if [ "$MAILNAME" ]; then
 	echo "$MAILNAME" > /etc/mailname
 fi
 
-if [ "SMTPPORTOUT" ]; then
+if [ "${SMTPPORTOUT}" ]; then
 	awk -v port_var="${SMTPPORTOUT}" '/remote_smtp:/{ n=NR+2 } NR==n{ $0="  driver = smtp\n  port = "port_var }1' /etc/exim4/exim4.conf.template > /etc/exim4/exim4.conf.temp
 	mv /etc/exim4/exim4.conf.temp /etc/exim4/exim4.conf.template
 fi

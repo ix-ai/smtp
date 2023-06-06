@@ -25,6 +25,8 @@ The container accepts `OTHER_HOSTNAMES` environment variable which will set the 
 
 The container accepts `NET_DEV` environment variable to override the default `eth0` interface for retrieving the IP address for relay networks.
 
+The container accepts `SMTPPORTOUT`environment variable to override the default port of 25 for connecting to the primary mailserver when used as secondary(eg. setting RELAY_DOMAINS)
+
 ## Below are scenarios for using this container
 
 ### As SMTP Server

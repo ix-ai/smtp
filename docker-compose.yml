@@ -32,3 +32,5 @@ services:
      # - SMARTHOST_USER=
      # - SMARTHOST_PASSWORD=
      # - SMARTHOST_ALIASES=
+     # # if provided will enable DKIM support
+     # - DKIM_KEY_PATH=

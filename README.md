@@ -85,6 +85,30 @@ services:
       - SMARTHOST_ALIASES=*.sendgrid.net
 ```
 
+## Enabling DKIM support
+
+First, generate a public/private key pair. 
+```
+openssl genrsa -out rsa.private 1024
+openssl rsa -in rsa.private -out rsa.public -pubout -outform PEM
+```
+
+Then, with the contents of the public key (`cat rsa.public`), create two new TXT DNS records:
+- At the location `dkim._domainkey.DOMAIN-NAME-HERE`, create a new TXT record with the contents `k=rsa; p=PUBLIC-KEY-HERE`. Only include the text between the dashed boundaries. Remove any line breaks so that it's only letters, numbers, +, and /.
+- At your location `DOMAIN-NAME-HERE`, create a new TXT record with the contents: `v=spf1 a mx ip4:SERVER-IP-ADDRESS-HERE -all`
+
+Finally, customize your `docker-compose.yml` to enable DKIM support and mount the necessary files. In this example, we've put the private key on the host at `./config/ixdotai-smtp`.
+
+```yml
+mail:
+  image: "ixdotai/smtp"
+  volumes:
+   - ./config/ixdotai-smtp/rsa.private:/etc/exim4/dkim.key.temp:ro
+  environment:
+    - MAILNAME=${DOMAIN}
+    - DKIM_KEY_PATH=/etc/exim4/dkim.key.temp
+```
+
 ## Tags and Arch
 
 Starting with version v0.0.1, the images are multi-arch, with builds for amd64, arm64 and armv7. Starting with v0.1.3 support for i386 was added.

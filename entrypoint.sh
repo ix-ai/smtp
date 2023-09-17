@@ -44,11 +44,7 @@ if [ "${SMTPPORTOUT}" ]; then
 fi
 
 if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
-	if [ "$MAILNAME" ]; then
-	  echo "MAIN_TLS_ENABLE = yes" >>  /etc/exim4/exim4.conf.localmacros
-	else
-	  echo "MAIN_TLS_ENABLE = yes" >>  /etc/exim4/exim4.conf.localmacros
-	fi
+	echo "MAIN_TLS_ENABLE = yes" >> /etc/exim4/exim4.conf.localmacros
 	cp "$KEY_PATH" /etc/exim4/exim.key
 	cp "$CERTIFICATE_PATH" /etc/exim4/exim.crt
 	chgrp Debian-exim /etc/exim4/exim.key

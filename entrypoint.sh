@@ -60,6 +60,19 @@ else
 	  echo "MAIN_TLS_ADVERTISE_HOSTS = !*" >> /etc/exim4/exim4.conf.localmacros
 fi
 
+if [ "$DKIM_KEY_PATH" ]; then
+	cp "$DKIM_KEY_PATH" /etc/exim4/dkim.key
+	chown :101 /etc/exim4/dkim.key
+	chmod 640 /etc/exim4/dkim.key
+	{
+		echo "DKIM_DOMAIN = \${lc:\${domain:\$h_from:}}"
+		echo "DKIM_KEY_FILE = /etc/exim4/dkim.key"
+		echo "DKIM_PRIVATE_KEY = \${if exists{DKIM_KEY_FILE}{DKIM_KEY_FILE}{0}}"
+		echo "DKIM_SELECTOR = dkim"
+		echo "DKIM_CANON = simple"
+	} >> /etc/exim4/exim4.conf.localmacros
+fi
+
 opts=(
 	dc_local_interfaces "[${BIND_IP:-0.0.0.0}]:${PORT:-25} ; [${BIND_IP6:-::0}]:${PORT:-25}"
 	dc_other_hostnames "${OTHER_HOSTNAMES}"

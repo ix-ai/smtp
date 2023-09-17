@@ -6,21 +6,21 @@ set -e
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
 #  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
 file_env() {
-        local var="$1"
-        local fileVar="${var}_FILE"
-        local def="${2:-}"
-        if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
-                echo >&2 "error: both ${var} and ${fileVar} are set (but are mutually exclusive)"
-                exit 1
-        fi
-        local val="$def"
-        if [ "${!var:-}" ]; then
-                val="${!var}"
-        elif [ "${!fileVar:-}" ]; then
-                val="$(< "${!fileVar}")"
-        fi
-        export "$var"="$val"
-        unset "$fileVar"
+	local var="$1"
+	local fileVar="${var}_FILE"
+	local def="${2:-}"
+	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+		echo >&2 "error: both ${var} and ${fileVar} are set (but are mutually exclusive)"
+		exit 1
+	fi
+	local val="$def"
+	if [ "${!var:-}" ]; then
+		val="${!var}"
+	elif [ "${!fileVar:-}" ]; then
+		val="$(< "${!fileVar}")"
+	fi
+	export "$var"="$val"
+	unset "$fileVar"
 }
 
 file_env GMAIL_USER
@@ -44,11 +44,7 @@ if [ "${SMTPPORTOUT}" ]; then
 fi
 
 if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
-	if [ "$MAILNAME" ]; then
-	  echo "MAIN_TLS_ENABLE = yes" >>  /etc/exim4/exim4.conf.localmacros
-	else
-	  echo "MAIN_TLS_ENABLE = yes" >>  /etc/exim4/exim4.conf.localmacros
-	fi
+	echo "MAIN_TLS_ENABLE = yes" >> /etc/exim4/exim4.conf.localmacros
 	cp "$KEY_PATH" /etc/exim4/exim.key
 	cp "$CERTIFICATE_PATH" /etc/exim4/exim.crt
 	chgrp Debian-exim /etc/exim4/exim.key
@@ -56,8 +52,10 @@ if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
 	chmod 640 /etc/exim4/exim.key
 	chmod 640 /etc/exim4/exim.crt
 else
-	  echo "MAIN_TLS_ENABLE = no" >> /etc/exim4/exim4.conf.localmacros
-	  echo "MAIN_TLS_ADVERTISE_HOSTS = !*" >> /etc/exim4/exim4.conf.localmacros
+	{
+		echo "MAIN_TLS_ENABLE = no"
+		echo "MAIN_TLS_ADVERTISE_HOSTS = !*"
+	} >> /etc/exim4/exim4.conf.localmacros
 fi
 
 if [ "$DKIM_KEY_PATH" ]; then
@@ -80,7 +78,7 @@ opts=(
 )
 
 if [ "$DISABLE_IPV6" ]; then
-        echo 'disable_ipv6=true' >> /etc/exim4/exim4.conf.localmacros
+	echo 'disable_ipv6=true' >> /etc/exim4/exim4.conf.localmacros
 fi
 
 if [ "$GMAIL_USER" ] && [ "$GMAIL_PASSWORD" ]; then

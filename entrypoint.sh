@@ -52,8 +52,10 @@ if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
 	chmod 640 /etc/exim4/exim.key
 	chmod 640 /etc/exim4/exim.crt
 else
-	echo "MAIN_TLS_ENABLE = no" >> /etc/exim4/exim4.conf.localmacros
-	echo "MAIN_TLS_ADVERTISE_HOSTS = !*" >> /etc/exim4/exim4.conf.localmacros
+	{
+		echo "MAIN_TLS_ENABLE = no"
+		echo "MAIN_TLS_ADVERTISE_HOSTS = !*"
+	} >> /etc/exim4/exim4.conf.localmacros
 fi
 
 opts=(

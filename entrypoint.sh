@@ -60,7 +60,7 @@ fi
 
 if [ "$DKIM_KEY_PATH" ]; then
 	cp "$DKIM_KEY_PATH" /etc/exim4/dkim.key
-	chown :101 /etc/exim4/dkim.key
+	chown Debian-exim /etc/exim4/dkim.key
 	chmod 640 /etc/exim4/dkim.key
 	{
 		echo "DKIM_DOMAIN = \${lc:\${domain:\$h_from:}}"

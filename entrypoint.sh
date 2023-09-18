@@ -43,7 +43,7 @@ if [ "${SMTPPORTOUT}" ]; then
 	mv /etc/exim4/exim4.conf.temp /etc/exim4/exim4.conf.template
 fi
 
-if [ "$KEY_PATH" ] && [ "$CERTIFICATE_PATH" ]; then
+if [ -s "$KEY_PATH" ] && [ -s "$CERTIFICATE_PATH" ]; then
 	echo "MAIN_TLS_ENABLE = yes" >> /etc/exim4/exim4.conf.localmacros
 	cp "$KEY_PATH" /etc/exim4/exim.key
 	cp "$CERTIFICATE_PATH" /etc/exim4/exim.crt
@@ -58,7 +58,7 @@ else
 	} >> /etc/exim4/exim4.conf.localmacros
 fi
 
-if [ "$DKIM_KEY_PATH" ]; then
+if [ -s "$DKIM_KEY_PATH" ]; then
 	cp "$DKIM_KEY_PATH" /etc/exim4/dkim.key
 	chown Debian-exim /etc/exim4/dkim.key
 	chmod 640 /etc/exim4/dkim.key

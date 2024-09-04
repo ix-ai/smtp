@@ -1,4 +1,4 @@
-FROM debian:stable-slim@sha256:382967fd7c35a0899ca3146b0b73d0791478fba2f71020c7aa8c27e3a4f26672
+FROM debian:stable-slim@sha256:8202e5220172ce3a49a95cb4110682fd6b3ec246d77b8ca641e59644ca496ff8
 LABEL maintainer="docker@ix.ai" \
       ai.ix.repository="ix.ai/smtp"
 

@@ -1,6 +1,8 @@
 FROM debian:stable-slim@sha256:939e69ef5aa4dc178893a718ea567f1ca390df60793fd08c0bc7008362f72a57
 LABEL maintainer="docker@ix.ai" \
-      ai.ix.repository="ix.ai/smtp"
+      ai.ix.repository="ix.ai/smtp" \
+      org.opencontianers.image.description="A minimal docker implementation for exim" \
+      org.opencontainers.image.source="https://gitlab.com/ix.ai/smtp"
 
 ARG PORT=25
 ARG BIND_IP="0.0.0.0"

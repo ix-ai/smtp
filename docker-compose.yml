@@ -1,7 +1,7 @@
 version: '3'
 services:
   smtp:
-    image: registry.gitlab.com/ix.ai/smtp@sha256:17b59e7b32aa9762d9f035fbc01712f958384cfb82a58848609218424788c0c6
+    image: registry.gitlab.com/ix.ai/smtp@sha256:f67bbebb1bb1d3e0dceb2c31b5509ad58afc69d31c6308c2194bae3ae582b3ca
     container_name: smtp
     restart: always
     ports:

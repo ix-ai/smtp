@@ -27,6 +27,8 @@ The container accepts `NET_DEV` environment variable to override the default `et
 
 The container accepts `SMTPPORTOUT`environment variable to override the default port of 25 for connecting to the primary mailserver when used as secondary(eg. setting RELAY_DOMAINS)
 
+If you want to switch to using split config instead of the monolithic one, specify `USE_SPLIT_CONFIG=true` in the environment variables. This will allow you to mount your own exim config files in the structure under `/etc/exim4/conf.d/{acl,auth,main,retry,rewrite,router,transport}`. For details see <https://wiki.debian.org/Exim>.
+
 ## Below are scenarios for using this container
 
 ### As SMTP Server

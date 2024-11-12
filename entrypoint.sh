@@ -127,6 +127,13 @@ if [ -f /etc/exim4/_docker_additional_macros ]; then
 	cat /etc/exim4/_docker_additional_macros >> /etc/exim4/exim4.conf.localmacros
 fi
 
+# allow using split-file config instead of monolithic config
+if [ "${USE_SPLIT_CONFIG:-false}" == "true" ]; then
+	opts+=(
+		dc_use_split_config "true"
+	)
+fi
+
 /bin/set-exim4-update-conf "${opts[@]}"
 
 exec "$@"

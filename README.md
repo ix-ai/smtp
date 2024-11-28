@@ -162,6 +162,10 @@ REMOTE_SMTP_SMARTHOST_TLS_VERIFY_HOSTS = :
 
 and bind-mount this file to `/etc/exim4/_docker_additional_macros`.
 
+## Third Party Implementations
+
+* Helm Chart: <https://artifacthub.io/packages/helm/ntppool/smtp> (thanks [@abh](https://github.com/abh))
+
 ## Credits
 
 Special thanks to [namshi/docker-smtp](https://github.com/namshi/docker-smtp).

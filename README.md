@@ -7,6 +7,8 @@
 
 This is a SMTP docker container for sending emails. You can also relay emails to gmail and amazon SES.
 
+**Disclaimer**: This is an implementation of Exim.
+
 ## Environment variables
 
 The container accepts `RELAY_NETWORKS` environment variable which *MUST* start with `:` e.g `:192.168.0.0/24` or `:192.168.0.0/24:10.0.0.0/16`.
@@ -89,14 +91,17 @@ services:
 
 ## Enabling DKIM support
 
-First, generate a public/private key pair. 
-```
+First, generate a public/private key pair.
+
+```sh
 openssl genrsa -out rsa.private 1024
 openssl rsa -in rsa.private -out rsa.public -pubout -outform PEM
 ```
 
+Optionally, set the environment variable `DKIM_SELECTOR` (default: `dkim`).
+
 Then, with the contents of the public key (`cat rsa.public`), create two new TXT DNS records:
-- At the location `dkim._domainkey.DOMAIN-NAME-HERE`, create a new TXT record with the contents `k=rsa; p=PUBLIC-KEY-HERE`. Only include the text between the dashed boundaries. Remove any line breaks so that it's only letters, numbers, +, and /.
+- At the location `${DKIM_SELECTOR}._domainkey.DOMAIN-NAME-HERE`, create a new TXT record with the contents `k=rsa; p=PUBLIC-KEY-HERE`. Only include the text between the dashed boundaries. Remove any line breaks so that it's only letters, numbers, +, and /.
 - At your location `DOMAIN-NAME-HERE`, create a new TXT record with the contents: `v=spf1 a mx ip4:SERVER-IP-ADDRESS-HERE -all`
 
 Finally, customize your `docker-compose.yml` to enable DKIM support and mount the necessary files. In this example, we've put the private key on the host at `./config/ixdotai-smtp`.
@@ -161,6 +166,10 @@ REMOTE_SMTP_SMARTHOST_TLS_VERIFY_HOSTS = :
 ```
 
 and bind-mount this file to `/etc/exim4/_docker_additional_macros`.
+
+## Third Party Implementations
+
+* Helm Chart: <https://artifacthub.io/packages/helm/ntppool/smtp> (thanks [@abh](https://github.com/abh))
 
 ## Credits
 

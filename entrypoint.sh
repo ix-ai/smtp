@@ -66,7 +66,7 @@ if [ -s "$DKIM_KEY_PATH" ]; then
 		echo "DKIM_DOMAIN = \${lc:\${domain:\$h_from:}}"
 		echo "DKIM_KEY_FILE = /etc/exim4/dkim.key"
 		echo "DKIM_PRIVATE_KEY = \${if exists{DKIM_KEY_FILE}{DKIM_KEY_FILE}{0}}"
-		echo "DKIM_SELECTOR = dkim"
+		echo "DKIM_SELECTOR = ${DKIM_SELECTOR:-dkim}"
 		echo "DKIM_CANON = simple"
 	} >> /etc/exim4/exim4.conf.localmacros
 fi

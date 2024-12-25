@@ -1,4 +1,4 @@
-FROM debian:stable-slim@sha256:4d63ef53faef7bd35c92fbefb1e9e2e7b6777e3cbec6c34f640e96b925e430eb
+FROM debian:stable-slim@sha256:45072abb5cab220aed049d404a2e1f103bd13b9f9885fe285e9aba8787ff8225
 LABEL maintainer="docker@ix.ai" \
       ai.ix.repository="ix.ai/smtp" \
       org.opencontianers.image.description="A minimal docker implementation for exim" \

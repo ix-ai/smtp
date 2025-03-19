@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/debian:stable-slim@sha256:a11850f246c52f46d46e985b707eeff6a658fd4909bf6d4a72ba620d12df6ea7
+FROM public.ecr.aws/docker/library/debian:stable-slim@sha256:70b337e820bf51d399fa5bfa96a0066fbf22f3aa2c3307e2401b91e2207ac3c3
 LABEL maintainer="docker@ix.ai" \
       ai.ix.repository="ix.ai/smtp" \
       org.opencontianers.image.description="A minimal docker implementation for exim" \

@@ -1,8 +1,6 @@
 # SMTP
 
 [![Pipeline Status](https://gitlab.com/ix.ai/smtp/badges/master/pipeline.svg)](https://gitlab.com/ix.ai/smtp/)
-[![Docker Stars](https://img.shields.io/docker/stars/ixdotai/smtp.svg)](https://hub.docker.com/r/ixdotai/smtp/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/ixdotai/smtp.svg)](https://hub.docker.com/r/ixdotai/smtp/)
 [![Gitlab Project](https://img.shields.io/badge/GitLab-Project-554488.svg)](https://gitlab.com/ix.ai/smtp/)
 
 This is a SMTP docker container for sending emails. You can also relay emails to gmail and amazon SES.
@@ -76,7 +74,7 @@ version: '3'
 
 services:
   smtp:
-    image: ixdotai/smtp:latest
+    image: registry.gitlab.com/ix.ai/smtp:latest
     ports:
       # this port mapping allows you to send email from the host.
       # if you only send from other docker containers you don't need this.
@@ -101,6 +99,7 @@ openssl rsa -in rsa.private -out rsa.public -pubout -outform PEM
 Optionally, set the environment variable `DKIM_SELECTOR` (default: `dkim`).
 
 Then, with the contents of the public key (`cat rsa.public`), create two new TXT DNS records:
+
 - At the location `${DKIM_SELECTOR}._domainkey.DOMAIN-NAME-HERE`, create a new TXT record with the contents `k=rsa; p=PUBLIC-KEY-HERE`. Only include the text between the dashed boundaries. Remove any line breaks so that it's only letters, numbers, +, and /.
 - At your location `DOMAIN-NAME-HERE`, create a new TXT record with the contents: `v=spf1 a mx ip4:SERVER-IP-ADDRESS-HERE -all`
 
@@ -108,7 +107,7 @@ Finally, customize your `docker-compose.yml` to enable DKIM support and mount th
 
 ```yml
 mail:
-  image: "ixdotai/smtp"
+  image: "registry.gitlab.com/ix.ai/smtp"
   volumes:
    - ./config/ixdotai-smtp/rsa.private:/etc/exim4/dkim.key.temp:ro
   environment:
@@ -120,15 +119,15 @@ mail:
 
 Starting with version v0.0.1, the images are multi-arch, with builds for amd64, arm64 and armv7. Starting with v0.1.3 support for i386 was added.
 
-* `vN.N.N` - for example v0.0.1
-* `latest` - always pointing to the latest version
-* `dev-master` - the last build on the master branch
+- `vN.N.N` - for example v0.0.1
+- `latest` - always pointing to the latest version
+- `dev-master` - the last build on the master branch
 
 ## Resources
 
-* Gitlab Registry: `registry.gitlab.com/ix.ai/smtp` - [gitlab.com/ix.ai/smtp](https://gitlab.com/ix.ai/smtp)
-* GitHub Registry: `ghcr.io/ix-ai/smtp` [github.com/ix-ai/smtp](https://github.com/ix-ai/smtp)
-* Docker Hub: `ixdotai/smtp` - [hub.docker.com/r/ixdotai/smtp](https://hub.docker.com/r/ixdotai/smtp)
+- Gitlab Registry: `registry.gitlab.com/ix.ai/smtp` - [gitlab.com/ix.ai/smtp](https://gitlab.com/ix.ai/smtp)
+- GitHub Registry: `ghcr.io/ix-ai/smtp` [github.com/ix-ai/smtp](https://github.com/ix-ai/smtp)
+- Docker Hub: `registry.gitlab.com/ix.ai/smtp` - [hub.docker.com/r/registry.gitlab.com/ix.ai/smtp](https://hub.docker.com/r/registry.gitlab.com/ix.ai/smtp)
 
 ## Troubleshooting
 
@@ -169,7 +168,7 @@ and bind-mount this file to `/etc/exim4/_docker_additional_macros`.
 
 ## Third Party Implementations
 
-* Helm Chart: <https://artifacthub.io/packages/helm/ntppool/smtp> (thanks [@abh](https://github.com/abh))
+- Helm Chart: <https://artifacthub.io/packages/helm/ntppool/smtp> (thanks [@abh](https://github.com/abh))
 
 ## Credits
 
@@ -181,6 +180,6 @@ In terms of configuration, this image works the same as namshi/docker-smtp.
 
 The main differences are:
 
-* this image is based on `debian:stable` (vs. `debian:buster` used by namshi) so it has a newer version of Exim with the latest security updates.  The newer version may result in some differences vs. namshi.
-* this image in addition to AMD64, is built for ARM64, ARMv7, ARMv6 and i386.
-* cosmetic changes in `entrypoint.sh` to make [shellcheck](https://github.com/koalaman/shellcheck/) happy
+- this image is based on `debian:stable` (vs. `debian:buster` used by namshi) so it has a newer version of Exim with the latest security updates.  The newer version may result in some differences vs. namshi.
+- this image in addition to AMD64, is built for ARM64, ARMv7, ARMv6 and i386.
+- cosmetic changes in `entrypoint.sh` to make [shellcheck](https://github.com/koalaman/shellcheck/) happy

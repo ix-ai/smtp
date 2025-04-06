@@ -7,5 +7,5 @@ variables:
   ENABLE_386: 'true'
 
 include:
-  - project: 'ix.ai/ci-templates'
+  - project: 'egos-tech/pipelines'
     file: '/bash-project.yml'

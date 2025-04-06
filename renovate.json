@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-      "gitlab>priv.ix.ai/renovate"
+      "local>egos-tech/renovate-config"
   ]
 }

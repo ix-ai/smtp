@@ -1,8 +1,8 @@
 FROM public.ecr.aws/docker/library/debian:stable-slim@sha256:70b337e820bf51d399fa5bfa96a0066fbf22f3aa2c3307e2401b91e2207ac3c3
-LABEL maintainer="docker@ix.ai" \
-      ai.ix.repository="ix.ai/smtp" \
-      org.opencontianers.image.description="A minimal docker implementation for exim" \
-      org.opencontainers.image.source="https://gitlab.com/ix.ai/smtp"
+LABEL org.opencontainers.image.authors="smtp@docker.egos.tech" \
+      org.opencontianers.image.description="A docker image to allow the launch of container in docker swarm, with options normally unavailable to swarm mode" \
+      org.opencontainers.image.source="https://gitlab.com/ix.ai/smtp" \
+      org.opencontainers.image.url="https://egos.tech/smtp"
 
 ARG PORT=25
 ARG BIND_IP="0.0.0.0"
